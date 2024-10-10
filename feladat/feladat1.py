@@ -12,4 +12,6 @@ class Task():
     def __str__(self):
         print(self.task, "=",    )
 
+    def serialize(self):
+        return [self.difficulty, self.result, self.task]
     

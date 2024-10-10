@@ -20,8 +20,26 @@ class TaskCollection():
                     for task in v:
                         self.add(feladat1.Task(task[0], k, task[1]))
 
-    """def save(self, f):
-        json_object = json.dumps(self.storage, indent=len(self.storage.keys()))
+    def save(self, f):
+        tasks={}
+        for k,v in self.storage.items():
+            for task in v:
+                l=task.serialize()
+                if l[0] in tasks.keys():
+                    tasks[l[0]].append([l[1], l[2]])
+                else:
+                    tasks[l[0]]=[[l[1],l[2]]]
+        dupl=[]
+        for key in tasks.keys():
+            for i in range(len(tasks[key])-1):
+                for j in range(i+1, len(tasks[key])):
+                    if tasks[key][i]==tasks[key][j]:
+                      dupl.append((key, tasks[key][i]))
+        for (d,elt) in dupl:
+            if elt in tasks[d]:
+                tasks[d].remove(elt)
+                        
+        json_object = json.dumps(tasks, indent=len(tasks.keys()))
         with open(f, "w") as outfile:
             outfile.write(json_object)
-    """
+    

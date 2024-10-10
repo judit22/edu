@@ -9,36 +9,67 @@ class Game():
         self.user=user
         self.tasks=tasks
         self.user_history={}
+        self.howmany_tasks=0
     
 
     def generate_task(self):
         num1=random.randint(1,9)
         num2=random.randint(1,9)
-        task_type=random.randint(1,4)
-        if task_type==1: # +
-            task=feladat1.Task(num1+num2, 1, f"{num1}+{num2}=")
-            self.tasks.storage[1].append(task)
-        elif task_type==2: # *
-            task=feladat1.Task(num1*num2, 2, f"{num1}*{num2}=")
-            self.tasks.storage[2].append(task)
-        elif task_type==3: # 
-            task=feladat1.Task(num1*num2+num1+num2, 3, f"{num1}*{num2}+{num1+num2}=")
-            task1=feladat1.Task(num1*num2+num1*num2, 1, f"{num1}*{num2}+{num1*num2}=")
-            task2=feladat1.Task(num1+num2*num1, 3, f"{num1}+{num2}*{num1}=")
-            task3=feladat1.Task(num2+num2*num1, 3, f"{num2}+{num2}*{num1}=")
 
+        task=feladat1.Task(num1+num2, 1, f"{num1}+{num2}")
+        self.tasks.storage[1].append(task)
+
+        task2=feladat1.Task(num1*num2, 2, f"{num1}*{num2}")
+        self.tasks.storage[2].append(task2)
+
+        task31=feladat1.Task(num1*num2+num1+num2, 3, f"{num1}*{num2}+{num1+num2}")
+        task32=feladat1.Task(num1*num2+num1*num2, 3, f"{num1}*{num2}+{num1*num2}")
+        task33=feladat1.Task(num1+num2*num1, 3, f"{num1}+{num2}*{num1}")
+        task34=feladat1.Task(num2+num2*num1, 3, f"{num2}+{num2}*{num1}")
+
+        l=[task31,task32,task33,task34]
+        for task in l:
             self.tasks.storage[3].append(task)
-            self.tasks.storage[3].append(task1)
-            self.tasks.storage[3].append(task2)
-            self.tasks.storage[3].append(task3)
-        else:
-            if num2 >5 and num1>6:
-                num1=random.randint(1,5)
-                num2=random.randint(1,3)
-            task=feladat1.Task(num1**num2, 4, f"{num1}^{num2}=")
+        
+        if num2 >=5 or num1>=6:
+            num1=random.randint(1,5)
+            num2=random.randint(1,3)
+        task4=feladat1.Task(num1**num2, 4, f"{num1}^{num2}")
+        self.tasks.storage[4].append(task4)
 
-            self.tasks.storage[4].append(task)
-            self.tasks.storage[4].append(task1)
+        task61= feladat1.Task(num1, 6, f"{num2}^x ={num2**num1}")
+        task62=feladat1.Task(num1, 6, f"x^{num2}={num1**num2}")
+        task63=feladat1.Task(num2, 6, f"x^{num1}={num2**num1}")
+
+        l=[task61,task62,task63]
+        for task in l:
+            self.tasks.storage[6].append(task)
+
+        num3=random.randint(1,9)
+        task81=feladat1.Task(num3+num1, 8, f"{num2}^{num1}*{num2}^{num3} = {num2}^x")
+        task82=feladat1.Task(num2+num1, 8, f"{num3}^{num2}*{num3}^{num1} = {num3}^x")
+        task83=feladat1.Task(num2+num3, 8, f"{num1}^{num2}*{num1}^{num3} = {num1}^x")
+        task84=feladat1.Task(num3*num1, 8, f"({num2}^{num1})^{num3} = {num2}^x")
+        task85=feladat1.Task(num2*num1, 8, f"({num3}^{num1})^{num2} = {num3}^x")
+        task86=feladat1.Task(num2*num3, 8, f"({num1}^{num2})^{num3} = {num1}^x")
+        
+        l=[task81,task82,task83, task84, task85, task86]
+        for task in l:
+            self.tasks.storage[8].append(task)
+
+        if num2!=1:
+            task71=feladat1.Task(num2**num1, 7, f'log_{num2}_x = {num1}')
+            task72=feladat1.Task(num2, 7, f"log_x_{num2**num2} = {num2}")
+            task73=feladat1.Task(num2, 7, f"log_x_{num2**num3} = {num3}")
+            task74=feladat1.Task(num2, 7, f"log_x_{num2**num1} = {num1}")
+            task75=feladat1.Task(num1, 7, f"log_{num2}_{num2**num1} = x")
+            task76=feladat1.Task(num3, 7, f"log_{num2}_{num2**num3} = x")
+            task77=feladat1.Task(num2, 7, f"log_{num2}_{num2**num2} = x")
+            
+            l=[task71,task72,task73,task74, task75, task76, task77]
+            for task in l:
+                self.tasks.storage[8].append(task)
+
             
     def choose_task(self):
         
@@ -67,12 +98,15 @@ class Game():
         return diff
 
     def play(self):
+        if self.howmany_tasks%10==0:
+            self.generate_task()
         task=self.choose_task()
         self.user.solve(task)
         print(f"{self.user.name}'s score: {self.user.score}, time taken: {self.user.results[-1][2]: .2f}, level {self.user.difficulty}")
         cont=input("press enter to continue")
         while cont=="":
             self.play()
+            self.howmany_tasks+=1
         if cont!="":
             self.terminate()
    
