@@ -14,5 +14,5 @@ taskcoll.add(task3)
 taskcoll.add(feladat1.Task(15,3,"3^2+3*2"))
 taskcoll.load("C:/Users/teves/Downloads/sample.json")
 g1=game.Game(user2, taskcoll)
-
+g1.generate_task()
 g1.play()

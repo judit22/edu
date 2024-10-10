@@ -11,8 +11,7 @@ class User():
             nickname=input("name: ")
         self.name=nickname
         self.counter=0 #how many tasks on a level correctly
-        self.last_time=0
-        self.last_score=0
+        self.results=[]
 
     def solve(self, task):
         task.__str__()
@@ -25,8 +24,9 @@ class User():
                 break
             except:
                 user_res=input()
-        self.last_score=self.validate(task.result, user_res)
-        self.last_time= end_time-start_time
+        score=self.validate(task.result, user_res)
+        last_time= end_time-start_time
+        self.results.append([score, task.difficulty, last_time])
 
     def validate(self, original, user_res ):
         if user_res==original:

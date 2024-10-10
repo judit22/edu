@@ -20,8 +20,8 @@ class TaskCollection():
                     for task in v:
                         self.add(feladat1.Task(task[0], k, task[1]))
 
-    def save(self, f):
+    """def save(self, f):
         json_object = json.dumps(self.storage, indent=len(self.storage.keys()))
         with open(f, "w") as outfile:
             outfile.write(json_object)
-    
+    """
