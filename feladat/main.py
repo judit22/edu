@@ -2,6 +2,7 @@ import feladat1
 import user
 import taskcollection
 import game
+'''
 user1=user.User("judit")
 user2=user.User()
 taskcoll=taskcollection.TaskCollection()
@@ -15,7 +16,9 @@ taskcoll.add(feladat1.Task(15,3,"3^2+3*2"))
 taskcoll.load("C:/Users/teves/Downloads/sample.json")
 taskcoll1=taskcollection.TaskCollection()
 taskcoll1.load('C:/Users/teves/Downloads/gentasks.json')
-g2=game.Game(user2,taskcoll1)
+'''
+#g2=game.Game(user2,taskcoll1,'C:/Users/teves/Downloads/userhistory.json' )
+g2=game.Game()
 g2.play()
 #g1=game.Game(user2, taskcoll)
 #g1.generate_task()

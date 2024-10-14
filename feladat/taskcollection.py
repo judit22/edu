@@ -19,6 +19,7 @@ class TaskCollection():
                 for k,v in opened_file.items():
                     for task in v:
                         self.add(feladat1.Task(task[0], k, task[1]))
+        return self
 
     def save(self, f):
         tasks={}
