@@ -38,28 +38,53 @@ class Game():
     def choose_task(self):
         
         #diff=self.select_difficulty()
-        diff=round(self.calculate_difficulty())
-        if diff in self.module.tasks.storage.keys():
-            number_of_tasks=len(self.module.tasks.storage[diff])
+        diff=self.calculate_difficulty()
+        r_diff=round(diff)
+        if r_diff in self.module.tasks.storage.keys():
+            number_of_tasks=len(self.module.tasks.storage[r_diff])
         else:
-            diff=self.user.difficulty
+            d=round(self.user.difficulty) #?
+            number_of_tasks=len(self.module.tasks.storage[d])
         index=random.randint(0,number_of_tasks-1)
-        return self.module.tasks.storage[diff][index],diff
+        return self.module.tasks.storage[r_diff][index], diff
     
+
     def calculate_difficulty(self):
         diff=self.user.difficulty
-        avg_t=self.module.avg_time
         if len(self.user.results)>1:
-            t= (self.user.results[-1][2]+self.user.results[-2][2])/2 #last 2 times avg
+            prev_diff=self.user.results[-1][1]
+            prev_time= self.user.results[-1][2]
+            prev_score= self.user.results[-1][0]
+            success_rate=(prev_diff/prev_time)*prev_score #0 if wrong answer 
+            max_diff_time_rate=2
+            if success_rate>0:
+                diff+=success_rate/max_diff_time_rate   
+            else:
+                diff-=success_rate/max_diff_time_rate 
+        else: #0 or 1 results
+            diff=1
+        if round(diff) not in self.module.tasks.storage.keys():  
+            if diff>=len(self.module.tasks.storage.keys()):   #higher than the highest stored diff
+                diff=list(self.module.tasks.storage.keys())[-1] #set to the highest
+            else:
+                diff=max(diff-1,1)                                #no such difficulty but not the highest available
+        return diff
+    
+
+    """def calculate_difficulty(self): #JOL MUKODIK
+        diff=self.user.difficulty
+        avg_t=self.module.avg_time*diff
+        if len(self.user.results)>1:
+            t= self.user.results[-1][2] #last time
             res1=self.user.results[-1][0]
             res2=self.user.results[-2][0]
             if t<avg_t and res1>1 and res2>1:
                 diff+=1           #last 2 answers correct and very short avg time
             elif avg_t<t and (res1>1 or res2>1): #at least one correct answer but not very short avg time
                 diff+= (res1+res2)/2 * (avg_t-t)
-            else:
+            else:  #neither correct
                 if t<avg_t:    
-                    diff=max(diff-1, 1) #neither correct
+                    diff=max(diff-1, 1) 
                 else: #avg_t>t
                     max(diff-(avg_t-t)/avg_t, 1)
 
@@ -71,7 +96,7 @@ class Game():
             else:
                 diff=max(diff-1,1)                                #no such difficulty but not the highest available
         return diff
-     
+    """
     
     """def calculate_difficulty(self):
         
@@ -107,7 +132,7 @@ class Game():
             self.module.generate_task()
         task,selected_diff=self.choose_task()
         self.user.solve(task, self.module, selected_diff)
-        print(f"{self.user.name}'s score: {self.user.score:.2f}, time taken: {self.user.results[-1][2]: .2f}, level {self.user.difficulty:.2f}, task's difficulty:{selected_diff}")
+        print(f"{self.user.name}'s score: {self.user.score:.2f}, time taken: {self.user.results[-1][2]: .2f}, level {self.user.difficulty:.2f}, task's difficulty:{task.difficulty},{selected_diff:.2f}")
         cont=input("press enter to continue")
         while cont=="":
             self.play()

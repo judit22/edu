@@ -34,21 +34,15 @@ class User():
         factor=selected_diff/self.difficulty
         avg_t=module.avg_time
         if score==1 and t<avg_t:
-            score+=(avg_t-t)*factor
-            self.score+=(score)
-            self.difficulty+=((avg_t-t)/avg_t)*factor
-        elif score==1:
             score+=(avg_t/t)*factor
+            self.score+=score
+            self.difficulty+=0.3
+        elif score==1:
+            score+=(avg_t/t*0.5)*factor
             self.score+=(score)
-            self.difficulty+=(avg_t/(t**2))*factor
+            self.difficulty+=0.3
         else:
-            if avg_t<t:
-                score-=avg_t/t*factor
-                self.difficulty=max(self.difficulty-(avg_t-t)*factor/avg_t,0)
-            else:
-                score-=(avg_t-t)*factor
-            self.score=max(self.score+score, 0)
-            self.difficulty=max(self.difficulty-(avg_t-t)/t*factor,0)
+           self.difficulty=max(self.difficulty-0.3,0)
         return score
 
 
