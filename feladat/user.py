@@ -24,12 +24,13 @@ class User():
                 user_res=float(user_res)
                 break
             except:
-                user_res=input()
+                user_res=input('the answer should be a number: ')
         last_time= end_time-start_time
         score=self.validate(task.result, user_res)
         point_for_task=self.calc_score(score, last_time, module, selected_diff)
-        self.results.append([point_for_task, task.difficulty, last_time])
-
+        #self.results.append([point_for_task, task.difficulty, last_time])
+        self.results.append([score, last_time, last_time/avg_t, self.difficulty, task.difficulty,self.counter])
+    
     def calc_score(self, score, t, module, selected_diff):
         factor=selected_diff/self.difficulty
         avg_t=module.avg_time
@@ -40,22 +41,21 @@ class User():
         elif score==1:
             score+=(avg_t/t*0.5)*factor
             self.score+=(score)
-            self.difficulty+=0.3
+            self.difficulty+=0.15
         else:
-           self.difficulty=max(self.difficulty-0.3,0)
+           self.difficulty=max(self.difficulty-1,1)
         return score
 
 
     def validate(self, original, user_res):
         if user_res==original:
             self.counter+=1
-            if self.counter==3:
+            if self.counter%3==0:
                 self.difficulty+=0.5
-                self.counter=0
             print("Good job!\n")
             return 1
         else:
-            self.counter=max(0, self.counter-1)
+            self.counter=0
             print("Not exactly...\n")
             return 0
         

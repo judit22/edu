@@ -17,9 +17,13 @@ taskcoll.load("C:/Users/teves/Downloads/sample.json")
 taskcoll1=taskcollection.TaskCollection()
 taskcoll1.load('C:/Users/teves/Downloads/gentasks.json')
 '''
-#g2=game.Game(user2,taskcoll1,'C:/Users/teves/Downloads/userhistory.json' )
-g2=game.Game('C:/Users/teves/Downloads/edu/userhistory.json','C:/Users/teves/Downloads/edu/gentasks.json')
+
+tasks=['C:/Users/teves/Downloads/edu/arithmetics.json','C:/Users/teves/Downloads/edu/power.json','x']
+g2=game.Game(tasks=tasks)
+#g2=game.Game('C:/Users/teves/Downloads/edu/userhistory.json',tasks)
 g2.play()
+
+
 #g1=game.Game(user2, taskcoll)
 #g1.generate_task()
 #g1.play()

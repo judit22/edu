@@ -17,21 +17,33 @@ class Game():
             except:
                 print("choose from 1, 2, 3!")
                 mod=input("Choose a topic!\n 1: Arithmetics \n 2: Powers, exponential, logarithm \n 3: Units\n")
+        a=p=u=None
+        for task in tasks:
+            if "arithmetics" in task:
+                a=1
+            if "power" in task:
+                p=1
+            if "unit" in task:
+                u=1
         if mod == 1:
             self.module=module.Arithmetics()
-            if tasks:
-                self.module.tasks.load(tasks) 
+            if a:
+                self.module.tasks.load(tasks[0]) 
         elif mod==2:
             self.module=module.Power()
+            if p:
+                self.module.tasks.load(tasks[1]) 
         else:
             self.module=module.Units()
-               
+            if u:  
+                self.module.tasks.load(tasks[2])  
         if f:
             self.user_history=self.user_history.load(f)
+
         self.howmany_tasks=0
 
         if f"{self.user.name}{self.module.index}" in self.user_history.history.keys():
-            self.user.results.append(self.user_history.history[f"{self.user.name}{self.module.index}"][-2])
+            #self.user.results.append(self.user_history.history[f"{self.user.name}{self.module.index}"][-2])
             self.user.results.append(self.user_history.history[f"{self.user.name}{self.module.index}"][-1])
             self.user.difficulty=self.user_history.history[f"{self.user.name}{self.module.index}"][-1][1]
             
@@ -51,16 +63,20 @@ class Game():
 
     def calculate_difficulty(self):
         diff=self.user.difficulty
-        if len(self.user.results)>1:
-            prev_diff=self.user.results[-1][1]
-            prev_time= self.user.results[-1][2]
+        if len(self.user.results)>0:
+            #prev_diff=self.user.results[-1][1]
+            #prev_time= self.user.results[-1][2]
+            #prev_score= self.user.results[-1][0]
+            prev_diff=self.user.results[-1][-1]
+            prev_time= self.user.results[-1][1]
             prev_score= self.user.results[-1][0]
+            if prev_time==0: prev_time+=0.01
             success_rate=(prev_diff/prev_time)*prev_score #0 if wrong answer 
-            max_diff_time_rate=2
+            max_diff_time_rate=0.5
             if success_rate>0:
-                diff+=success_rate/max_diff_time_rate   
+                diff+=success_rate*max_diff_time_rate   
             else:
-                diff-=success_rate/max_diff_time_rate 
+                diff-=(prev_diff/prev_time)*max_diff_time_rate
         else: #0 or 1 results
             diff=1
         if round(diff) not in self.module.tasks.storage.keys():  
@@ -149,10 +165,16 @@ class Game():
         else:
             self.user_history.history[f"{self.user.name}{self.module.index}"]=self.user.results
         self.user_history.save('C:/Users/teves/Downloads/edu/userhistory.json')
-        """if self.module.index==1:
-            self.module.tasks.save('C:/Users/teves/Downloads/edu/arithmetics.json')
-        elif self.module.index==2:
-            self.module.tasks.save('C:/Users/teves/Downloads/edu/powertasks.json')
-        else:
-            self.module.tasks.save('C:/Users/teves/Downloads/edu/unittasks.json')"""
+    
         sys.exit(0)
+
+
+    """def terminate(self):
+        if f"{self.user.name}{self.module.index}" in self.user_history.history.keys():
+            existing=[self.user.results[-1]]
+            self.user_history.history[f"{self.user.name}{self.module.index}"]=existing
+        else:
+            self.user_history.history[f"{self.user.name}{self.module.index}"]=[self.user.results[-1]]
+        self.user_history.save('C:/Users/teves/Downloads/edu/userhistory.json')
+    
+        sys.exit(0)"""
