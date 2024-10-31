@@ -1,4 +1,5 @@
 import feladat1
+import calculator
 import time
 class User():
     user_counter=0
@@ -27,9 +28,10 @@ class User():
                 user_res=input('the answer should be a number: ')
         last_time= end_time-start_time
         score=self.validate(task.result, user_res)
-        point_for_task=self.calc_score(score, last_time, module, selected_diff)
+        #point_for_task=self.calc_score(score, last_time, module, selected_diff)
+        point_for_task=calculator.Calculator.calc_score(self, score, last_time, module, selected_diff)
         #self.results.append([point_for_task, task.difficulty, last_time])
-        self.results.append([score, last_time, last_time/avg_t, self.difficulty, task.difficulty,self.counter])
+        self.results.append([point_for_task, last_time, last_time/avg_t, self.difficulty, task.difficulty,self.counter])
     
     def calc_score(self, score, t, module, selected_diff):
         factor=selected_diff/self.difficulty

@@ -4,10 +4,12 @@ import history
 import random 
 import sys
 import module
+import calculator
 
 class Game():
     def __init__(self,f=None, tasks=None):
         self.user=user.User()
+        self.calculator=calculator.Calculator()
         self.user_history=history.History()
         mod=input("Choose a topic!\n 1: Arithmetics \n 2: Powers, exponential, logarithm \n 3: Units\n")
         while True:
@@ -51,22 +53,23 @@ class Game():
         
         #diff=self.select_difficulty()
         diff=self.calculate_difficulty()
+        diff=self.calculator.calc_diff(game=self)
         r_diff=round(diff)
         if r_diff in self.module.tasks.storage.keys():
             number_of_tasks=len(self.module.tasks.storage[r_diff])
         else:
-            d=round(self.user.difficulty) #?
+            d=len(self.module.tasks.storage)
             number_of_tasks=len(self.module.tasks.storage[d])
+            index=random.randint(0,number_of_tasks-1)
+            return self.module.tasks.storage[d][index], d
         index=random.randint(0,number_of_tasks-1)
         return self.module.tasks.storage[r_diff][index], diff
+    
     
 
     def calculate_difficulty(self):
         diff=self.user.difficulty
         if len(self.user.results)>0:
-            #prev_diff=self.user.results[-1][1]
-            #prev_time= self.user.results[-1][2]
-            #prev_score= self.user.results[-1][0]
             prev_diff=self.user.results[-1][-1]
             prev_time= self.user.results[-1][1]
             prev_score= self.user.results[-1][0]
@@ -157,7 +160,7 @@ class Game():
             self.terminate()
    
 
-    def terminate(self):
+    """def terminate(self):
         if f"{self.user.name}{self.module.index}" in self.user_history.history.keys():
             existing=self.user_history.history[f"{self.user.name}{self.module.index}"]
             existing.extend(self.user.results)
@@ -166,15 +169,16 @@ class Game():
             self.user_history.history[f"{self.user.name}{self.module.index}"]=self.user.results
         self.user_history.save('C:/Users/teves/Downloads/edu/userhistory.json')
     
-        sys.exit(0)
+        sys.exit(0)"""
 
 
-    """def terminate(self):
+    def terminate(self):
         if f"{self.user.name}{self.module.index}" in self.user_history.history.keys():
             existing=[self.user.results[-1]]
             self.user_history.history[f"{self.user.name}{self.module.index}"]=existing
         else:
             self.user_history.history[f"{self.user.name}{self.module.index}"]=[self.user.results[-1]]
         self.user_history.save('C:/Users/teves/Downloads/edu/userhistory.json')
+        #self.module.tasks.save('C:/Users/teves/Downloads/edu/unittasks.json')
     
-        sys.exit(0)"""
+        sys.exit(0)

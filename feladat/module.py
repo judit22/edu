@@ -7,7 +7,17 @@ class Module():
     def __init__(self):
         self.tasks=taskcollection.TaskCollection()
     def generate_task(self):
-        pass
+        if len(self.tasks.storage.keys())==0:
+                self.tasks.storage[1]=[]
+                self.tasks.storage[2]=[]
+                self.tasks.storage[3]=[]
+                self.tasks.storage[4]=[]
+                self.tasks.storage[5]=[]
+                self.tasks.storage[6]=[]
+        else:
+            for i in range(1,7):
+                if i not in self.tasks.storage.keys():
+                    self.tasks.storage[i]=[]
 
 class Arithmetics(Module):
     def __init__(self):
@@ -19,10 +29,14 @@ class Arithmetics(Module):
         except:
             pass
     def generate_task(self):
-        if len(self.tasks.storage.keys())==0:
+        """if len(self.tasks.storage.keys())==0:
                 self.tasks.storage[1]=[]
                 self.tasks.storage[2]=[]
                 self.tasks.storage[3]=[]
+                self.tasks.storage[4]=[]
+                self.tasks.storage[5]=[]
+                self.tasks.storage[6]=[]"""
+        super().generate_task()
 
         num1=random.randint(1,30)
         num2=random.randint(1,50)
@@ -30,9 +44,9 @@ class Arithmetics(Module):
             task=feladat1.Task(num1+num2+2*i, 1, f"{num1+i}+{num2+i}")
             self.tasks.storage[1].append(task)
         
-        for i in range(1,5):
-            num1=random.randint(1,6)
-            num2=random.randint(1,6)
+        for i in range(1,5,2):
+            num1=random.randint(2,6)
+            num2=random.randint(2,6)
             if num1!=num2:
                 task211=feladat1.Task(num1*2,4, f"{num1}/{num2} = x/{num2*2}")
                 task221=feladat1.Task(num1*3,4, f"{num1}/{num2} = x/{num2*3}")
@@ -82,17 +96,29 @@ class Arithmetics(Module):
         if num2>1:
             task51=feladat1.Task(num1**2,5 ,f"{num1}/{num2}= x/{num1*num2}")
             self.tasks.storage[5].append(task51)
-        for i in range(1,8):
-            task52=feladat1.Task((num2+i)*num2+num1**2 ,5 ,f"{num2+i}/{num1}+{num1}/{num2}= x/{num1*num2}")
-            task53=feladat1.Task((num1+i)*num2+num1**2 ,5 ,f"{num1+i}/{num1} + {num1}/{num2}= x/{num1*num2}")
-            task54=feladat1.Task((num2+i)*num1+num2**2 ,5 ,f"{num2+i}/{num2}+{num2}/{num1}= x/{num1*num2}")
-            task55=feladat1.Task((num1+i)*num1+num2**2 ,5 ,f"{num1+i}/{num2}+{num2}/{num1}= x/{num1*num2}")
+        for i in range(1,8,2):
+            task62=feladat1.Task((num2+i)*num2+num1**2 ,6 ,f"{num2+i}/{num1} + {num1}/{num2} = x/{num1*num2}")
+            task63=feladat1.Task((num1+i)*num2+num1**2 ,6 ,f"{num1+i}/{num1} + {num1}/{num2} = x/{num1*num2}")
+            task64=feladat1.Task((num2+i)*num1+num2**2 ,6 ,f"{num2+i}/{num2} + {num2}/{num1} = x/{num1*num2}")
+            task65=feladat1.Task((num1+i)*num1+num2**2 ,6 ,f"{num1+i}/{num2} + {num2}/{num1} = x/{num1*num2}")
 
-            l=[task52,task53,task54,task55]
+            l=[task62,task63,task64,task65]
+            for task in l:
+                self.tasks.storage[6].append(task)
+
+        for i in range(1,8,2):
+            task52=feladat1.Task(((num2+i)*num2),5 ,f"{num2+i}/{num1} * {num2} = x/{num1}")
+            task53=feladat1.Task(((num1+i)*num2),5 ,f"{num1+i}/{num1} * {num2} = x/{num1}")
+            task54=feladat1.Task(((num2+i)*num1),5 ,f"{num2+i}/{num2} * {num1} = x/{num2}")
+            task55=feladat1.Task((num1+i)*num2,5 ,f"{num1+i}/{num2} * {num2} = x/{num2}")
+            task521=feladat1.Task((num2+i)+num2 ,5 ,f"{num2+i}/{num1} + {num2}/{num1} = x/{num1}")
+            task531=feladat1.Task((num1+i)+num1 ,5 ,f"{num1+i}/{num2} + {num1}/{num2} = x/{num2}")
+            task541=feladat1.Task((num2+i)+num1,5 ,f"{num2+i}/{num2} + {num1}/{num2} = x/{num2}")
+            task551=feladat1.Task((num1+i)+num2 ,5 ,f"{num1+i}/{num1} + {num2}/{num1} = x/{num1}")
+
+            l=[task52,task53,task54,task55, task521,task531,task541,task551]
             for task in l:
                 self.tasks.storage[5].append(task)
-            
-
         
 class Power(Module):
     def __init__(self):
@@ -100,15 +126,16 @@ class Power(Module):
           self.index=2
           self.avg_time=3
     def generate_task(self):
+        super().generate_task()
 
-        if len(self.tasks.storage.keys())==0:
+        """if len(self.tasks.storage.keys())==0:
             self.tasks.storage[1]=[]
             self.tasks.storage[2]=[]
             self.tasks.storage[3]=[]
             self.tasks.storage[4]=[]
         for i in range(1,5):
             if i not in self.tasks.storage.keys():
-                self.tasks.storage[i]=[]
+                self.tasks.storage[i]=[]"""
             
         num1=random.randint(2,5)
         num2=random.randint(2,3)
@@ -157,19 +184,14 @@ class Units(Module):
         self.index=3
         self.avg_time=3
     def generate_task(self):
-        if len(self.tasks.storage.keys())==0:
-            self.tasks.storage[1]=[]
-            self.tasks.storage[2]=[]
-            self.tasks.storage[3]=[]
-            self.tasks.storage[4]=[]
-            self.tasks.storage[5]=[]
-            self.tasks.storage[6]=[]
-            self.tasks.storage[7]=[]
+        for i in range(1,8):
+            if i not in self.tasks.storage.keys():
+                self.tasks.storage[i]=[]
 
         num1=random.randint(1,100)
         num2=random.randint(1,100)
         unit=random.choice(['m','l'])
-        for i in range(1,5):
+        for i in range(1,5,2):
             task111=feladat1.Task(num1*i*10, 1, f"{num1*i*100} c{unit} = x d{unit}")
             task121=feladat1.Task(num2*i*10, 1, f"{num2*i*100} c{unit} = x d{unit}")
             task131=feladat1.Task(num1*i, 1, f"{num1*i*10} c{unit} = x d{unit}")
@@ -232,7 +254,7 @@ class Units(Module):
             for task in l:
                 self.tasks.storage[1].append(task)
 
-        for i in range(1,5):
+        for i in range(1,5,2):
             task211=feladat1.Task(num1*i, 2, f"{num1*i*100}c{unit} = x {unit}")
             task221=feladat1.Task(num2*i, 2, f"{num2*i*100}c{unit} = x {unit}")
             task231=feladat1.Task(num1*i*10, 2, f"{num1*i*1000}c{unit} = x {unit}")
@@ -290,7 +312,7 @@ class Units(Module):
                 l=[task411,task412,task421,task422,task431,task432,task441,task442,task451,task452]
                 for task in l:
                     self.tasks.storage[4].append(task)
-            for i in range(8):
+            for i in range(0,8,2):
                 task51=feladat1.Task((num1+i)/10 ,5,f"x km = {(num1+i)*100} m")
                 task52=feladat1.Task((num1+i)/100 ,5,f"x km = {(num1+i)*10} m")
                 task53=feladat1.Task((num1+i)/1000 ,5,f"x km = {num1+i} m")
@@ -298,7 +320,7 @@ class Units(Module):
                 for task in l:
                     self.tasks.storage[5].append(task)
             
-            for i in range(5):
+            for i in range(0,5,2):
                 num1=random.randint(1,10)
                 num2=random.randint(1,10)
                 if num2>num1:
@@ -325,7 +347,7 @@ class Units(Module):
                     l=[task621,task622,task623,task624,task625]
                     for task in l:
                         self.tasks.storage[6].append(task)
-            for i in range(5):
+            for i in range(0,5,2):
                 num1=random.randint(1,10)
                 num2=random.randint(1,10)
                 if num2>num1:
