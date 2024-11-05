@@ -127,55 +127,77 @@ class Power(Module):
           self.avg_time=3
     def generate_task(self):
         super().generate_task()
-
-        """if len(self.tasks.storage.keys())==0:
-            self.tasks.storage[1]=[]
-            self.tasks.storage[2]=[]
-            self.tasks.storage[3]=[]
-            self.tasks.storage[4]=[]
-        for i in range(1,5):
-            if i not in self.tasks.storage.keys():
-                self.tasks.storage[i]=[]"""
             
         num1=random.randint(2,5)
         num2=random.randint(2,3)
         task4=feladat1.Task(num1**num2, 1, f"{num1}^{num2}")
-        task41=feladat1.Task(num2**num1, 1, f"{num2}^{num1}")
+        task40=feladat1.Task(num2**num1, 1, f"{num2}^{num1}")
         self.tasks.storage[1].append(task4)
-        self.tasks.storage[1].append(task41)
+        self.tasks.storage[1].append(task40)
 
-        task61= feladat1.Task(num1, 2, f"{num2}^x ={num2**num1}")
-        self.tasks.storage[2].append(task61)
-        task62=feladat1.Task(num1, 2, f"x^{num2}={num1**num2}")
-        task63=feladat1.Task(num2, 2, f"x^{num1}={num2**num1}")
-        self.tasks.storage[2].append(task62)
-        self.tasks.storage[2].append(task63)
+        task21= feladat1.Task(num1, 2, f"{num2}^x ={num2**num1}")
+        self.tasks.storage[2].append(task21)
+        task22=feladat1.Task(num1, 2, f"x^{num2}={num1**num2}")
+        task23=feladat1.Task(num2, 2, f"x^{num1}={num2**num1}")
+        self.tasks.storage[2].append(task22)
+        self.tasks.storage[2].append(task23)
         
         num3=random.randint(2,9)
-        task81=feladat1.Task(num3+num1, 4, f"{num2}^{num1}*{num2}^{num3} = {num2}^x")
-        task82=feladat1.Task(num2+num1, 4, f"{num3}^{num2}*{num3}^{num1} = {num3}^x")
-        task83=feladat1.Task(num2+num3, 4, f"{num1}^{num2}*{num1}^{num3} = {num1}^x")
-        task84=feladat1.Task(num3*num1, 4, f"({num2}^{num1})^{num3} = {num2}^x")
-        task85=feladat1.Task(num2*num1, 4, f"({num3}^{num1})^{num2} = {num3}^x")
-        task86=feladat1.Task(num2*num3, 4, f"({num1}^{num2})^{num3} = {num1}^x")
+        task41=feladat1.Task(num3+num1, 4, f"{num2}^{num1}*{num2}^{num3} = {num2}^x")
+        task42=feladat1.Task(num2+num1, 4, f"{num3}^{num2}*{num3}^{num1} = {num3}^x")
+        task43=feladat1.Task(num2+num3, 4, f"{num1}^{num2}*{num1}^{num3} = {num1}^x")
+        task44=feladat1.Task(num3*num1, 4, f"({num2}^{num1})^{num3} = {num2}^x")
+        task45=feladat1.Task(num2*num1, 4, f"({num3}^{num1})^{num2} = {num3}^x")
+        task46=feladat1.Task(num2*num3, 4, f"({num1}^{num2})^{num3} = {num1}^x")
         
-        l=[task81,task82,task83, task84, task85, task86]
+        l=[task41,task42,task43, task44, task45, task46]
         for task in l:
             self.tasks.storage[4].append(task)
 
         if num2!=1:
-            task71=feladat1.Task(num2**num1, 3, f'log_{num2}_x = {num1}')
-            task72=feladat1.Task(num2, 3, f"log_x_{num2**num2} = {num2}")
-            task73=feladat1.Task(num2, 3, f"log_x_{num2**num3} = {num3}")
-            task74=feladat1.Task(num2, 3, f"log_x_{num2**num1} = {num1}")
-            task75=feladat1.Task(num1, 3, f"log_{num2}_{num2**num1} = x")
-            task76=feladat1.Task(num3, 3, f"log_{num2}_{num2**num3} = x")
-            task77=feladat1.Task(num2, 3, f"log_{num2}_{num2**num2} = x")
+            for i in range(1,8,2):
+                task71=feladat1.Task(num2**num1, 3, f'log_{num2}_x = {num1}')
+                task72=feladat1.Task(num2, 3, f"log_x_{num2**num2} = {num2}")
+                task73=feladat1.Task(num2, 3, f"log_x_{num2**num3} = {num3}")
+                task74=feladat1.Task(num2, 3, f"log_x_{num2**num1} = {num1}")
+                task75=feladat1.Task(num1, 3, f"log_{num2}_{num2**num1} = x")
+                task76=feladat1.Task(num3, 3, f"log_{num2}_{num2**num3} = x")
+                task77=feladat1.Task(num2, 3, f"log_{num2}_{num2**num2} = x")
+                
+                l=[task71,task72,task73,task74, task75, task76, task77]
+
+                for task in l:
+                    self.tasks.storage[3].append(task)
+
+                task81=feladat1.Task(num1*(num1+i),5,f"log_{num2}_{num1} + log_{num2}_{num1+i} = log_{num2}_x")
+                task82=feladat1.Task(num1*(num2+i),5,f"log_{num2}_{num1} + log_{num2}_{num2+i} = log_{num2}_x")
+                task83=feladat1.Task((num2+i)*(num1+i),5,f"log_{num2}_{num2+i} + log_{num2}_{num1+i} = log_{num2}_x")
+                task84=feladat1.Task(num2+i,5,f"log_{num2}_{num1} + log_{num2}_x = log_{num2}_{num1*(num2+i)}")
+                task85=feladat1.Task(num1+num2,5,f"log_{num2}_{num1} + log_{num2}_x = log_{num2}_{num1*(num1+num2)}")
+                task86=feladat1.Task(num2,5,f"log_{num2}_{num1+i} + log_{num2}_x = log_{num2}_{(num1+i)*num2}")
+                task811=feladat1.Task((num1+i)/num1,5,f"log_{num2}_{num1+i} - log_{num2}_{num1} = log_{num2}_x")
+                task821=feladat1.Task((num2+i)/num2,5,f"log_{num2+i}_{num1} - log_{num2}_{num2} = log_{num2}_x")
+                task831=feladat1.Task((num2+i)/(num1),5,f"log_{num2}_{num2+i} - log_{num2}_{num1} = log_{num2}_x")
+                task841=feladat1.Task(num2+i,5,f"log_{num2}_{num1*(num2+i)} - log_{num2}_x = log_{num2}_{num1}")
+                task851=feladat1.Task(num1,5,f"log_{num2}_{num1*(num2+i)*2} - log_{num2}_x = log_{num2}_{(num2+i)*2}")
+                task861=feladat1.Task(num1,5,f"log_{num2}_{num1*i} - log_{num2}_x = log_{num2}_{i}")
+
+                l=[task81,task82,task83,task84,task85,task86,task811,task821,task831,task841,task851,task861]
+                for task in l:
+                    self.tasks.storage[5].append(task)
             
-            l=[task71,task72,task73,task74, task75, task76, task77]
-            for task in l:
-                self.tasks.storage[3].append(task)
-    
+
+                task61=feladat1.Task(num2,6,f"log_{num1}_({num1}^{num2}) = x")
+                task62=feladat1.Task(num1,6,f"log_{num1}_({num1}^{num1}) = x")
+                task63=feladat1.Task(num1,6,f"log_{num2}_({num2}^{num1}) = x")
+                task64=feladat1.Task(num2,6,f"log_{num2}_({num2}^{num2}) = x")
+
+                task65=feladat1.Task(num2,6,f"{num1}^(-{num2}) = 1/{num1}^x")
+                task66=feladat1.Task(num1,6,f"{num2}^(-{num1}) = 1/{num2}^x")
+
+                l=[task61,task62,task63,task64,task65,task66]
+                for task in l:
+                    self.tasks.storage[6].append(task)
 
 class Units(Module):
 
@@ -184,9 +206,7 @@ class Units(Module):
         self.index=3
         self.avg_time=3
     def generate_task(self):
-        for i in range(1,8):
-            if i not in self.tasks.storage.keys():
-                self.tasks.storage[i]=[]
+        super().generate_task()
 
         num1=random.randint(1,100)
         num2=random.randint(1,100)
@@ -242,8 +262,8 @@ class Units(Module):
         
             task1912=feladat1.Task(num1*i*10, 1, f"x g = {num1*i} dkg")
             task1922=feladat1.Task(num2*i*10, 1, f"x g = {num2*i} dkg")
-            task1932=feladat1.Task(num1*i, 1, f"x g = {num1*i*10} dkg")
-            task1942=feladat1.Task(num2*i, 1, f"x g = {num2*i*10} dkg")
+            task1932=feladat1.Task(num1*i*10, 1, f"x g = {num1*i} dkg")
+            task1942=feladat1.Task(num2*i*10, 1, f"x g = {num2*i} dkg")
 
             l=[task111,task121,task131,task141,task112,task122,task132,task142,task113,
                task123,task133,task143,task151,task152,task161, task162,task171,task172,

@@ -151,7 +151,7 @@ class Game():
             self.module.generate_task()
         task,selected_diff=self.choose_task()
         self.user.solve(task, self.module, selected_diff)
-        print(f"{self.user.name}'s score: {self.user.score:.2f}, time taken: {self.user.results[-1][2]: .2f}, level {self.user.difficulty:.2f}, task's difficulty:{task.difficulty},{selected_diff:.2f}")
+        print(f"{self.user.name}'s score: {self.user.score:.2f}, time taken: {self.user.results[-1][1]: .2f}, level {self.user.difficulty:.2f}, task's difficulty:{task.difficulty},{selected_diff:.2f}")
         cont=input("press enter to continue")
         while cont=="":
             self.play()
