@@ -9,18 +9,27 @@ import user
 class Calculator():
     def __init__(self):
         training_data_x,training_data_y=pd.read_csv('C:/Users/teves/Downloads/generated_data_x1.csv'),pd.read_csv('C:/Users/teves/Downloads/generated_data_y1.csv')    
-       
+        self.training_mint=np.min(training_data_x['time'])
+        self.training_maxt=np.max(training_data_x['time'])
+        training_data_x['time']=(training_data_x['time']-self.training_mint)/(self.training_maxt-self.training_mint)
+        
         X_train, X_test, y_train, y_test = train_test_split(training_data_x,
                                                              training_data_y,
                                                              test_size=0.33,
                                                              random_state=42)
+        
+
+        """X_train=training_data_x.sample(n=len(training_data_x))
+        idx=X_train.index
+        y_train=training_data_y.reindex(idx)"""
         self.X_train=X_train.to_numpy()
         self.y_train=y_train.to_numpy()
-        self.X_test=X_test.to_numpy()
+        #self.X_test=X_test.to_numpy()
 
         self.classifier=LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000)
         #self.classifier = KNeighborsClassifier(n_neighbors=3)
         self.classifier.fit(self.X_train, self.y_train)
+        print(self.classifier.predict(X_test))
 
     def transform(self,X):
         temp=[0]*self.X_train.shape[1]
@@ -37,6 +46,7 @@ class Calculator():
         if X[5]>6:
             temp[-4]=1
         else: temp[X[5]+22]=1
+        temp[-1]=(temp[-1]-self.training_mint)/(self.training_maxt-self.training_mint)
         return temp
     
     def calc_score(User, score, t, module, selected_diff):
@@ -64,11 +74,12 @@ class Calculator():
         max_diff_time_rate=0.5
         prev_diff=int(np.where(data[11:22])[0]+1)
         prev_time= data[-2]
-        #prev_score= data[0]
         prev_score=data[-3]
         diff=prev_diff
         if prev_score==0 and pred==2:
             pred=0
+        if pred==0 and prev_time<5:
+            pred=-1
         if prev_time==0: prev_time+=0.01
 
         if pred>-1:

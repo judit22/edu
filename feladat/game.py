@@ -5,11 +5,12 @@ import random
 import sys
 import module
 import calculator
+import calc1 
 
 class Game():
     def __init__(self,f=None, tasks=None):
         self.user=user.User()
-        self.calculator=calculator.Calculator()
+        self.calculator=calc1.Calculator()
         self.user_history=history.History()
         mod=input("Choose a topic!\n 1: Arithmetics \n 2: Powers, exponential, logarithm \n 3: Units\n")
         while True:
@@ -52,7 +53,7 @@ class Game():
     def choose_task(self):
         
         #diff=self.select_difficulty()
-        diff=self.calculate_difficulty()
+        #diff=self.calculate_difficulty()
         diff=self.calculator.calc_diff(game=self)
         r_diff=round(diff)
         if r_diff in self.module.tasks.storage.keys():

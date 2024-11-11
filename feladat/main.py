@@ -20,6 +20,7 @@ taskcoll1.load('C:/Users/teves/Downloads/gentasks.json')
 
 tasks=['C:/Users/teves/Downloads/edu/arithmetics.json','C:/Users/teves/Downloads/edu/power.json','C:/Users/teves/Downloads/edu/unittasks.json']
 #g2=game.Game(tasks=tasks)
+
 g2=game.Game('C:/Users/teves/Downloads/edu/userhistory.json',tasks)
 g2.play()
 
