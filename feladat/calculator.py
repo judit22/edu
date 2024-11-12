@@ -89,7 +89,7 @@ class Calculator():
             else: game.user.difficulty+=success_rate*max_diff_time_rate+pred/5
         else: game.user.diffuculty=max((diff-diff/prev_time)*max_diff_time_rate, 1)
 
-        udif=round(game.user.difficulty)
+        #udif=round(game.user.difficulty)
         """if udif not in game.module.tasks.storage.keys():  
             if udif>=len(game.module.tasks.storage.keys()):   #higher than the highest stored diff
                 udiff=list(game.module.tasks.storage.keys())[-1] #set to the highest

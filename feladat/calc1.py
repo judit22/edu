@@ -8,7 +8,7 @@ import numpy as np
 import user
 class Calculator():
     def __init__(self):
-        training_data_x,training_data_y=pd.read_csv('C:/Users/teves/Downloads/generated_data_x_new.csv'),pd.read_csv('C:/Users/teves/Downloads/generated_data_y_new.csv')    
+        training_data_x,training_data_y=pd.read_csv('C:/Users/teves/Downloads/generated_data_x_new1.csv'),pd.read_csv('C:/Users/teves/Downloads/generated_data_y_new1.csv')    
         self.time_min, self.time_max=np.min(training_data_x['time']), np.max(training_data_x['time'])
         self.userlvl_min, self.userlvl_max=np.min(training_data_x['userlvl']), np.max(training_data_x['userlvl'])
         self.difficulty_min, self.difficulty_max=np.min(training_data_x['task difficulty']), np.max(training_data_x['task difficulty'])
@@ -16,8 +16,8 @@ class Calculator():
         
         training_data_x=training_data_x.to_numpy()
         training_data_y=training_data_y.to_numpy()
-        self.classifier=LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000)
-        #self.classifier = KNeighborsClassifier(n_neighbors=3)
+        #self.classifier=LogisticRegression(random_state=0, solver='lbfgs', max_iter=1000)
+        self.classifier = KNeighborsClassifier(n_neighbors=3)
         self.classifier.fit(training_data_x, training_data_y)
 
     def transform(self,X):
@@ -67,10 +67,15 @@ class Calculator():
         else: game.user.diffuculty=max((prev_diff-prev_diff/prev_time)*max_diff_time_rate, 1)"""
         success_rate=(prev_diff/prev_time)*prev_score #0 if wrong answer
         if game.user.difficulty>= max(game.module.tasks.storage.keys()): #don't let user diff go further than the max lvl of tasks, thus decreasing the user lvl in case of a wrong answer won't result easier tasks
-            game.user.difficulty=max(game.module.tasks.storage.keys())
-        else: game.user.difficulty+=success_rate*max_diff_time_rate+pred/2
+            if pred>0:
+                game.user.difficulty=max(game.module.tasks.storage.keys())
+            else:
+                game.user.difficulty+=success_rate*max_diff_time_rate + pred/2
+
+        elif pred>-1: game.user.difficulty+=success_rate*max_diff_time_rate * pred/3
+        else: game.user.difficulty+=success_rate*max_diff_time_rate + pred/2
         
-        udif=round(game.user.difficulty)
+        #udif=round(game.user.difficulty)
         """if udif not in game.module.tasks.storage.keys():  
             if udif>=len(game.module.tasks.storage.keys()):   #higher than the highest stored diff
                 udiff=list(game.module.tasks.storage.keys())[-1] #set to the highest
